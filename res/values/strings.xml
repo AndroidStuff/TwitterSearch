@@ -1,5 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">TwitterSearch</string>
+
+    <string name="search_query_default_text">Enter your search query</string>
+
+    <string name="tag_search_query_edit_text">Tag your search query to save for future searches</string>
+
+    <string name="save">Save</string>
+
+    <string name="saved_tags_header">Saved Tags</string>
+
+    <string name="clear_all_tags_button">Clear All Tags</string>
 
 </resources>
