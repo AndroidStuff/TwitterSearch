@@ -73,12 +73,15 @@
         android:id="@+id/tableRow3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_weight="1" 
+        android:background="@android:color/background_dark" >
+
         <ScrollView
             android:id="@+id/queryScrollView"
             android:layout_width="match_parent"
             android:layout_span="2"
-            android:padding="5dp" >
+            android:padding="5dp"
+            tools:ignore="UselessParent" >
 
             <TableLayout
                 android:id="@+id/queryTableLayout"
