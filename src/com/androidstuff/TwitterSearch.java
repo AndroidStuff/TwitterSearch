@@ -53,24 +53,27 @@ public class TwitterSearch extends Activity {
 		preferencesEditor.apply();
 
 		if(isTagAlreadyPresent) {
-			refreshTagList(tag);
+			return;
 		}
+		refreshTagList(tag);
 	}
 
-	private void refreshTagList(String tag) {
+	private void refreshTagList(String newTag) {
 		String[] tags = savedSearches.getAll().keySet().toArray(new String[0]);
 		Arrays.sort(tags, String.CASE_INSENSITIVE_ORDER);
-		for(int index = 0; index < tags.length; index++) {
-			addTagRowInGUI(tags[index], index);
-		}
+		addTagRowInGUI(newTag, Arrays.binarySearch(tags, newTag));
+		//		for(int index = 0; index < tags.length; index++) {
+		//			addTagRowInGUI(tags[index], index);
+		//		}
 	}
 
 	private void addTagRowInGUI(String tag, int index) {
+		final ViewGroup savedTagsTableLayout = (ViewGroup) findViewById(R.id.savedTagsTableLayout);
 		final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		final View newRow = layoutInflater.inflate(R.layout.new_tag_view_row, null);
+		final View newRow = layoutInflater.inflate(R.layout.new_tag_view_row, savedTagsTableLayout, false);
 
 		((Button) newRow.findViewById(R.id.newTagButton)).setText(tag); //NOTE: It's relative search within the inflated layout context
-		( (ViewGroup) findViewById(R.id.savedTagsTableLayout) ).addView(newRow);
+		savedTagsTableLayout.addView(newRow, index);
 	}
 
 	private boolean isTagAlreadyPresent(String tag) {
