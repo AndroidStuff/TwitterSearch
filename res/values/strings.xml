@@ -13,4 +13,6 @@
 
     <string name="clear_all_tags_button">Clear All Tags</string>
 
+    <string name="editButton">Edit</string>
+
 </resources>

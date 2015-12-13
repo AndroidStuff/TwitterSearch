@@ -77,14 +77,14 @@
         android:background="@android:color/background_dark" >
 
         <ScrollView
-            android:id="@+id/queryScrollView"
+            android:id="@+id/savedTagsScrollView"
             android:layout_width="match_parent"
             android:layout_span="2"
             android:padding="5dp"
             tools:ignore="UselessParent" >
 
             <TableLayout
-                android:id="@+id/queryTableLayout"
+                android:id="@+id/savedTagsTableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
