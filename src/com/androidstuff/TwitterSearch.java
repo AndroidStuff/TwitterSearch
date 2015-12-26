@@ -41,6 +41,27 @@ public class TwitterSearch extends Activity {
 		}
 	};
 
+	private OnClickListener deleteTagButtonListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			final ViewGroup parent = (ViewGroup) v.getParent();
+			removeRowFromUI(parent);
+			removeTagFromDictionary(parent);
+		}
+
+		private void removeTagFromDictionary(final ViewGroup parent) {
+			final Button tagButton = (Button) parent.findViewById(R.id.newTagButton);
+			final String tagToBeDeleted = tagButton.getText().toString();
+			removeFromDictionary(tagToBeDeleted);
+		}
+
+		private void removeRowFromUI(final ViewGroup parent) {
+			final ViewGroup savedTagsTableLayout = (ViewGroup) findViewById(R.id.savedTagsTableLayout);
+			savedTagsTableLayout.removeView(parent);
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +81,7 @@ public class TwitterSearch extends Activity {
 		String searchQuery = getSearchQueryEditText().getText().toString(),
 				tag = getTagSearchQueryEditText().getText().toString();
 		boolean isTagAlreadyPresent = isTagAlreadyPresent(tag);
-		saveLocally(searchQuery, tag);
+		addToDictionary(searchQuery, tag);
 
 		if(isTagAlreadyPresent) {
 			return;
@@ -68,10 +89,16 @@ public class TwitterSearch extends Activity {
 		refreshTagList(tag);
 	}
 
-	private void saveLocally(String searchQuery, String tag) {
+	private void addToDictionary(String searchQuery, String tag) {
 		Editor preferencesEditor = savedSearches.edit();
 		preferencesEditor.putString(tag, searchQuery);
 		preferencesEditor.apply();
+	}
+
+	private void removeFromDictionary(final String tagToBeDeleted) {
+		final Editor editor = savedSearches.edit();
+		editor.remove(tagToBeDeleted);
+		editor.apply();
 	}
 
 	private void refreshTagList() {
@@ -99,8 +126,17 @@ public class TwitterSearch extends Activity {
 		final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		final View newRow = layoutInflater.inflate(R.layout.new_tag_view_row, savedTagsTableLayout, false);
 
-		((Button) newRow.findViewById(R.id.newTagButton)).setText(tag); //NOTE: It's relative search within the inflated layout context
+		getTagButtonIn(newRow).setText(tag); //NOTE: It's relative search within the inflated layout context
+		getDeleteButtonIn(newRow).setOnClickListener(deleteTagButtonListener);
 		savedTagsTableLayout.addView(newRow, index);
+	}
+
+	private Button getDeleteButtonIn(final View newRow) {
+		return (Button) newRow.findViewById(R.id.newDeleteButton);
+	}
+
+	private Button getTagButtonIn(final View newRow) {
+		return (Button) newRow.findViewById(R.id.newTagButton);
 	}
 
 	private boolean isTagAlreadyPresent(String tag) {
@@ -130,6 +166,5 @@ public class TwitterSearch extends Activity {
 	private void clearTagInputField() {
 		getTagSearchQueryEditText().setText("");
 	}
-
 
 }
