@@ -60,14 +60,18 @@ public class TwitterSearch extends Activity {
 		String searchQuery = getSearchQueryEditText().getText().toString(),
 				tag = getTagSearchQueryEditText().getText().toString();
 		boolean isTagAlreadyPresent = isTagAlreadyPresent(tag);
-		Editor preferencesEditor = savedSearches.edit();
-		preferencesEditor.putString(tag, searchQuery);
-		preferencesEditor.apply();
+		saveLocally(searchQuery, tag);
 
 		if(isTagAlreadyPresent) {
 			return;
 		}
 		refreshTagList(tag);
+	}
+
+	private void saveLocally(String searchQuery, String tag) {
+		Editor preferencesEditor = savedSearches.edit();
+		preferencesEditor.putString(tag, searchQuery);
+		preferencesEditor.apply();
 	}
 
 	private void refreshTagList() {
