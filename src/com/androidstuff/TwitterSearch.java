@@ -62,6 +62,20 @@ public class TwitterSearch extends Activity {
 		}
 	};
 
+	private OnClickListener clearAllTagsButtonListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			clearAllTagsInUI();
+			clearAllInDictionary();
+		}
+
+		private void clearAllTagsInUI() {
+			final ViewGroup tagsListLayout = (ViewGroup) findViewById(R.id.savedTagsTableLayout);
+			tagsListLayout.removeAllViews();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,8 +86,10 @@ public class TwitterSearch extends Activity {
 		//		findViewById(R.id.savedTagsTableLayout);
 
 		Button saveTagButton = (Button) findViewById(R.id.saveTagButton);
-		saveTagButton.setOnClickListener(saveTagButtonListener );
+		saveTagButton.setOnClickListener(saveTagButtonListener);
 
+		Button clearAllTagsButton = (Button) findViewById(R.id.clearTagsButton);
+		clearAllTagsButton.setOnClickListener(clearAllTagsButtonListener );
 		refreshTagList();
 	}
 
@@ -99,6 +115,10 @@ public class TwitterSearch extends Activity {
 		final Editor editor = savedSearches.edit();
 		editor.remove(tagToBeDeleted);
 		editor.apply();
+	}
+
+	private void clearAllInDictionary() {
+		savedSearches.edit().clear().commit();
 	}
 
 	private void refreshTagList() {
