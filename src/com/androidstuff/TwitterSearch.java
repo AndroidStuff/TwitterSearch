@@ -1,12 +1,14 @@
 package com.androidstuff;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +44,8 @@ public class TwitterSearch extends Activity {
 
 		Button saveTagButton = (Button) findViewById(R.id.saveTagButton);
 		saveTagButton.setOnClickListener(saveTagButtonListener );
+
+		refreshTagList();
 	}
 
 	private void saveTagAndRefreshUI() {
@@ -58,13 +62,24 @@ public class TwitterSearch extends Activity {
 		refreshTagList(tag);
 	}
 
+	private void refreshTagList() {
+		String[] tags = fetchSortedTags();
+		for (int index = 0; index < tags.length; index++) {
+			addTagRowInGUI(tags[index], index);
+		}
+	}
+
 	private void refreshTagList(String newTag) {
-		String[] tags = savedSearches.getAll().keySet().toArray(new String[0]);
-		Arrays.sort(tags, String.CASE_INSENSITIVE_ORDER);
+		String[] tags = fetchSortedTags();
 		addTagRowInGUI(newTag, Arrays.binarySearch(tags, newTag));
-		//		for(int index = 0; index < tags.length; index++) {
-		//			addTagRowInGUI(tags[index], index);
-		//		}
+	}
+
+	private String[] fetchSortedTags() {
+		final Set<String> keySet = savedSearches.getAll().keySet();
+		Log.i("savedSearches size : ", Integer.toString(keySet.size()));
+		String[] tags = keySet.toArray(new String[keySet.size()]);
+		Arrays.sort(tags, String.CASE_INSENSITIVE_ORDER);
+		return tags;
 	}
 
 	private void addTagRowInGUI(String tag, int index) {
