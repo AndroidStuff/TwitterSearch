@@ -9,12 +9,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class TwitterSearch extends Activity {
 
@@ -28,8 +30,14 @@ public class TwitterSearch extends Activity {
 				clearSearchQueryInputField();
 				clearTagInputField();
 			}else {
-				//TODO: Throw Alert
+				alertByToast("Both search query and tag fields needs to be filled");
 			}
+		}
+
+		private void alertByToast(String alertMessage) {
+			final Toast toast = Toast.makeText(getApplicationContext(), alertMessage, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.TOP, 0, 0);
+			toast.show();
 		}
 	};
 
