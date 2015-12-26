@@ -11,10 +11,10 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/newEditButton"
+        android:id="@+id/newDeleteButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="@dimen/editButtonWidth"
         android:layout_height="wrap_content"
-        android:text="@string/editButton" />
+        android:text="@string/deleteButton" />
 
 </TableRow>

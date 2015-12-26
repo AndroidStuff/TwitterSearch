@@ -15,4 +15,6 @@
 
     <string name="editButton">Edit</string>
 
+    <string name="deleteButton">Delete</string>
+
 </resources>

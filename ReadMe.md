@@ -16,7 +16,7 @@
     - implement twitter search on click of button
 
 ## References
-* Inspiration from the Book titled, "Android For Programmers - An App-Driven Approach" by Deitel & Associates Inc
+* [Buy this book] Inspiration from the examples in Book titled, "Android For Programmers - An App-Driven Approach" by Deitel & Associates Inc
 * Sample Source Code looked upon for quick references:
     - https://github.com/anistark/pep-favoritetwittersearches
     - https://github.com/switch527/FavoriteTwitterSearches
