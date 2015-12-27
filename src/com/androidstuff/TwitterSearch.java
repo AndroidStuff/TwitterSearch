@@ -33,12 +33,6 @@ public class TwitterSearch extends Activity {
 				alertByToast("Both search query and tag fields needs to be filled");
 			}
 		}
-
-		private void alertByToast(String alertMessage) {
-			final Toast toast = Toast.makeText(getApplicationContext(), alertMessage, Toast.LENGTH_SHORT);
-			toast.setGravity(Gravity.TOP, 0, 0);
-			toast.show();
-		}
 	};
 
 	private OnClickListener deleteTagButtonListener = new OnClickListener() {
@@ -76,6 +70,22 @@ public class TwitterSearch extends Activity {
 		}
 	};
 
+	private OnClickListener tagButtonListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			alertByToast(deriveTagValue(v));
+		}
+
+		private String deriveTagValue(View v) {
+			return savedSearches.getString(getTextInButton(v), null);
+		}
+
+		private String getTextInButton(View v) {
+			return ((Button) v).getText().toString();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,13 +93,9 @@ public class TwitterSearch extends Activity {
 
 		savedSearches = getSharedPreferences("searches", MODE_PRIVATE);
 
-		//		findViewById(R.id.savedTagsTableLayout);
+		getSaveTagButton().setOnClickListener(saveTagButtonListener);
+		getClearAllTagsButton().setOnClickListener(clearAllTagsButtonListener );
 
-		Button saveTagButton = (Button) findViewById(R.id.saveTagButton);
-		saveTagButton.setOnClickListener(saveTagButtonListener);
-
-		Button clearAllTagsButton = (Button) findViewById(R.id.clearTagsButton);
-		clearAllTagsButton.setOnClickListener(clearAllTagsButtonListener );
 		refreshTagList();
 	}
 
@@ -147,8 +153,23 @@ public class TwitterSearch extends Activity {
 		final View newRow = layoutInflater.inflate(R.layout.new_tag_view_row, savedTagsTableLayout, false);
 
 		getTagButtonIn(newRow).setText(tag); //NOTE: It's relative search within the inflated layout context
+		getTagButtonIn(newRow).setOnClickListener(tagButtonListener);
 		getDeleteButtonIn(newRow).setOnClickListener(deleteTagButtonListener);
 		savedTagsTableLayout.addView(newRow, index);
+	}
+
+	private void alertByToast(String alertMessage) {
+		final Toast toast = Toast.makeText(getApplicationContext(), alertMessage, Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.TOP, 0, 0);
+		toast.show();
+	}
+
+	private void clearSearchQueryInputField() {
+		getSearchQueryEditText().setText("");
+	}
+
+	private void clearTagInputField() {
+		getTagSearchQueryEditText().setText("");
 	}
 
 	private Button getDeleteButtonIn(final View newRow) {
@@ -179,12 +200,12 @@ public class TwitterSearch extends Activity {
 		return (EditText)findViewById(R.id.tagSearchQueryEditText);
 	}
 
-	private void clearSearchQueryInputField() {
-		getSearchQueryEditText().setText("");
+	private Button getClearAllTagsButton() {
+		return (Button) findViewById(R.id.clearTagsButton);
 	}
 
-	private void clearTagInputField() {
-		getTagSearchQueryEditText().setText("");
+	private Button getSaveTagButton() {
+		return (Button) findViewById(R.id.saveTagButton);
 	}
 
 }
